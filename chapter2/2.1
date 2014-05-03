@@ -1,0 +1,64 @@
+; MISC DEFINITIONS
+(define (gcd a b)
+	(if (= b 0)
+	    a
+	    (gcd b (remainder a b))))
+
+; RATIONAL NUMBER DEFINITION
+(define (make-rat n d) 
+	(let ((g (abs (gcd n d))))
+		(define numer (/ n g))
+		(define denom (/ d g))
+		(if (and (< numer 0) (< denom 0))
+		    (cons (abs numer) (abs denom))
+		    (cons numer denom))))
+
+(define (numer x) (car x))
+
+(define (denom x) (cdr x))
+
+(define (print-rat x)
+	(display (numer x))
+	(display "/")
+	(display (denom x))
+	(newline))
+
+(define (add-rat x y)
+	(make-rat (+ (* (numer x) (denom y)) (* (numer y) (denom x)))
+		  (* (denom x) (denom y))))
+
+(define (sub-rat x y)
+	(make-rat (- (* (numer x) (denom y)) (* (numer y) (denom x)))
+		  (* (denom x) (denom y))))
+	
+(define (mult-rat x y)
+	(make-rat (* (numer x) (numer y))
+		  (* (denom x) (denom y))))
+
+(define (div-rat x y)
+	(make-rat (* (numer x) (denom y))
+		  (* (denom x) (numer y))))
+
+; TESTS
+(display "Positive rationals:")
+(newline)
+(define one-half (make-rat 1 2))
+(define one (add-rat one-half one-half))
+(define zero (sub-rat one-half one-half))
+(define one-quarter (mult-rat one-half one-half))
+(define two-over-two (div-rat one-half one-half))
+
+(print-rat one-half)
+(print-rat one)
+(print-rat zero)
+(print-rat one-quarter)
+(print-rat two-over-two)
+
+(display "Negative rationals:")
+(newline)
+(define neg-one-third (make-rat -1 3))
+(print-rat neg-one-third)
+(print-rat (add-rat neg-one-third one-half))
+(print-rat (sub-rat neg-one-third one-half))
+(print-rat (mult-rat neg-one-third one-half))
+(print-rat (div-rat neg-one-third neg-one-third))

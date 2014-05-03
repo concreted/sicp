@@ -1,0 +1,102 @@
+(define (expmod base exp m)
+	(define (test x n)
+		(if (or (= x 1) (= x (- n 1))) x)
+		(if (= (remainder (square x) n) 1) 0)
+		x)
+	(cond ((= exp 0) 1)
+	      ((even? exp) 
+	      	      (remainder (square (test (expmod base (/ exp 2) m) exp)) m))
+	      (else (remainder (* base (expmod base (- exp 1) m)) m))))
+
+(define (fermat-test n)
+	(define (try-it a)
+		(= (expmod a (- n 1) n) 1))
+	(try-it (+ 1 (random (- n 1)))))
+
+(define (fast-prime? n times)
+	(cond ((= times 0) #t)
+	      ((fermat-test n) (fast-prime? n (- times 1)))
+	      (else #f)))
+
+(define (square n)
+	(* n n))
+
+(define (smallest-divisor n)
+	(find-divisor n 2))
+
+(define (find-divisor n test-divisor)
+	(cond ((> (square test-divisor) n) n)
+	      ((divides? test-divisor n) test-divisor)
+	      (else (find-divisor n (+ test-divisor 1)))))
+
+(define (divides? a b)
+	(= (remainder b a) 0))
+
+(define (prime? n)
+	;(= n (smallest-divisor n))
+	(fast-prime? n 1000))
+
+;--------------PRIME STUFF---------------;
+
+(define (filtered-accumulate combiner null-value term a next b filter)
+	(if (> a b) 
+	    null-value
+	    (combiner (term (filter a)) (filtered-accumulate combiner null-value term (next a) next b filter))))
+
+(define (inc n)
+	(+ n 1))
+
+(define (square n)
+	(* n n))
+
+(define (cube n)
+	(* n n n))
+
+(define (gcd a b)
+	(if (= b 0)
+	    a
+	    (gcd b (remainder a b))))
+
+(define (sum term a next b)
+	(filtered-accumulate + 0 term a next b identity))
+
+(define (product term a next b)
+	(filtered-accumulate * 1 term a next b identity))
+
+(define (sum-cubes a b)
+	(sum cube a inc b))	
+
+(define (factorial n)
+	(product identity 1 inc n))
+
+(define (sum-prime-squares a b)
+	(define (prime-or-0 n)
+		(if (prime? n)
+		    n
+		    0))
+	(filtered-accumulate + 0 square a inc b prime-or-0))
+
+(define (product-relative-primes n)
+	(define (relatively-prime i)
+		(if (= 1 (gcd i n))
+		    i
+		    1))
+	(filtered-accumulate * 1 identity 1 inc (- n 1) relatively-prime))
+
+(display (sum-cubes 1 10))
+(newline)
+
+(display (factorial 10))
+(newline)
+(display (* 10 9 8 7 6 5 4 3 2 1))
+(newline)
+
+(display (sum-prime-squares 2 9))
+(newline)
+(display (+ (square 2) (square 3) (square 5) (square 7)))
+(newline)
+
+(display (product-relative-primes 8))
+(newline)
+(display (* 1 3 5 7))
+(newline)

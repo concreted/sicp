@@ -1,0 +1,13 @@
+(define (fast-exp-iter b n)
+	(define (exp b n a)
+		(cond ((= 0 n) a)
+		      ((odd? n) (exp b (- n 1) (* a b)))
+		      ((even? n) (exp (* b b) (/ n 2) a)
+		      )))
+		
+	(exp b n 1))
+
+(display (fast-exp-iter 3 12))
+(newline)
+(display (fast-exp-iter 2 7))
+(newline)

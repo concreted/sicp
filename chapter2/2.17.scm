@@ -1,0 +1,11 @@
+(define (last-pair l)
+  (if (null? (cdr l))
+      (car l)
+      (last-pair (cdr l))))
+
+(display (last-pair (list 23 72 149 34)))
+(newline)
+(display (last-pair (list 23 72)))
+(newline)
+(display (cdr (cdr (list 23 72))))
+(newline)

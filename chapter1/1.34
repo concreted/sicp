@@ -1,0 +1,5 @@
+(define (f g)
+	(g 2))
+
+(f f)
+; Type error - attempts to evaluate (f (f 2)), which fails because it tries to treat 2 as a function.

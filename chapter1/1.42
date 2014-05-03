@@ -1,0 +1,21 @@
+(define (inc x)
+	(+ x 1))
+
+(define (square x)
+	(* x x))
+
+(define (compose f g)
+	(lambda (x) (f (g x))))
+
+(define result ((compose square inc) 6))
+(define expected (square (inc 6)))
+
+(display "Result: ")
+(display result)
+(newline)
+(display "Expected: ")
+(display expected)
+(newline)
+(display "Pass: ")
+(display (= result expected))
+(newline)

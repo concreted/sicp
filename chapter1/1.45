@@ -1,0 +1,46 @@
+(define (square a)
+	(* a a))
+
+(define (average a b)
+	(/ (+ a b) 2))
+
+(define (average-damp f)
+	(lambda (x) (average x (f x))))
+
+(define tolerance 0.0000000000000001)
+
+(define (fixed-point f first-guess)
+	(define (close-enough? v1 v2)
+		(< (abs (- v1 v2)) tolerance))
+	(define (try guess)
+		(let ((next (f guess)))
+		     (if (close-enough? guess next)
+		     	 next
+			 (try next))))
+	(try first-guess))
+
+(define (sqrt x)
+	(fixed-point (average-damp (lambda (y) (/ x y))) 1.0))
+
+(define (cube-root x)
+	(fixed-point (average-damp (lambda (y) (/ x (square y)))) 1.0))
+
+(define (repeated f n)
+	(define (try g i)
+		(if (= 1 i)
+		    g
+	    	    (try (lambda (x) (f (g x))) (- i 1))))
+	(try f n))
+
+(define (fourth-root x)
+	(fixed-point ((repeated average-damp 2) (lambda (y) (/ x (* y y y)))) 1.0))
+
+(define (nth-root x n)
+	(fixed-point ((repeated average-damp (- n 2)) (lambda (y) (/ x (expt y (- n 1))))) 1.0))
+
+(display (fourth-root 256))
+(newline)
+(display (nth-root 256 4))
+(newline)
+(display (nth-root (expt 5 5) 5))
+(newline)

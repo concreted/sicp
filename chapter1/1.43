@@ -1,0 +1,15 @@
+(define (square x)
+	(* x x))
+
+(define (repeated f n)
+	(define (try g i)
+		(if (= 1 i)
+		    g
+	    	    (try (lambda (x) (f (g x))) (- i 1))))
+	(try f n))
+
+(define a ((repeated square 2) 5))
+(display a)
+(newline)
+(display (sqrt a))
+(newline)

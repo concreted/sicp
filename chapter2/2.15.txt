@@ -1,0 +1,5 @@
+Yes - par2 demonstrated to get correct answer.
+
+System aggregates error bounds such that if r1 has tolerance > 0, r1/r1 tolerance == r1 tolerance * 2.
+
+This causes tolerance percentage to grow higher if terms with tolerance > 0 are divided with each other, as in par1.

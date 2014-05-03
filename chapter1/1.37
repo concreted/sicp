@@ -1,0 +1,32 @@
+(define (cont-frac n d k)
+	(define (do n d i)
+		(if (= i k)
+	    	    (/ (n i) (d i))
+	    	    (/ (n i) (+ (d i) (do n d (+ i 1))))))
+	(do n d 1))
+
+(define (cont-frac-iter n d k)
+	(define (iter result k)
+		(if (= k 0)
+		    result
+		    (iter (/ (n k) (+ (d k) result)) (- k 1))))
+	(iter 0 k))
+
+(define (golden-ratio-4-dec)
+	(define (try i)
+		(if (> 0.00005 (abs (- (cont-frac (lambda (i) 1.0) (lambda (i) 1.0) i) 0.6180)))
+		    i
+		    (try (+ i 1))))
+	(try 1))
+
+; Recursive
+(display (cont-frac (lambda (i) 1.0) (lambda (i) 1.0) 10))
+(newline)
+
+; Iterative
+(display (cont-frac-iter (lambda (i) 1.0) (lambda (i) 1.0) 10))
+(newline)
+
+; Number of tries to get 4-decimal-place precision
+(display (golden-ratio-4-dec))
+(newline) 

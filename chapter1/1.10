@@ -1,0 +1,8 @@
+(f n) = 2n
+(g n) = 2^n
+(h n) = 2 ^ (2 ^ (2 ^ ... n times
+      (really? got following results:
+      (h 1) = 2
+      (h 2) = 4
+      (h 3) = 16
+      (h 4) = 65536	    

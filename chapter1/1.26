@@ -1,0 +1,1 @@
+Not taking advantage of applicative-order evaluation? By writing out the square operation as two multiplies, has to evaluate expmod operation twice?

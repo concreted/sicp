@@ -1,0 +1,11 @@
+(define (fast-mult-rec a b)
+	(cond ((= b 1) a)
+	      ((even? b) (fast-mult-rec (* a 2) (/ b 2)))
+	      ((odd? b) (+ a (fast-mult-rec a (- b 1))))))
+
+(display (fast-mult-rec 2 3))
+(newline)
+(display (fast-mult-rec 9 9))
+(newline)
+(display (fast-mult-rec 99 99))
+(newline)

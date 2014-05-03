@@ -1,0 +1,8 @@
+(define (pascal-triangle row place)
+	(cond 
+	      ((or (= place 1) (= place row)) 1)
+	      (else 
+	      	    (+ (pascal-triangle (- row 1) (- place 1)) (pascal-triangle (- row 1) place)))))
+
+(display (pascal-triangle 5 2))
+(newline)

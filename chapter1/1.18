@@ -1,0 +1,13 @@
+(define (fast-mult a b)
+	(define (double a) (* a 2))
+	(define (halve a) (/ a 2))
+	(define (mult-add a b c)
+		(cond ((= b 0) c)
+		      ((even? b) (mult-add (double a) (halve b) c))
+		      ((odd? b) (mult-add a (- b 1) (+ c a)))))
+	(mult-add a b 0))
+
+(display (fast-mult 2 3))
+(newline)
+(display (fast-mult 9 9))
+(newline)

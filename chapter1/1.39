@@ -1,0 +1,34 @@
+(define (cont-frac-sub n d k)
+	(define (do n d i)
+		(if (= i k)
+	    	    (/ (n i) (d i))
+	    	    (/ (n i) (- (d i) (do n d (+ i 1))))))
+	(do n d 1))
+
+(define (cont-frac n d k)
+	(define (do n d i)
+		(if (= i k)
+	    	    (/ (n i) (d i))
+	    	    (/ (n i) (+ (d i) (do n d (+ i 1))))))
+	(do n d 1))
+
+(define (cont-frac-iter n d k)
+	(define (iter result k)
+		(if (= k 0)
+		    result
+		    (iter (/ (n k) (+ (d k) result)) (- k 1))))
+	(iter 0 k))
+
+(define (tan-cf x k)
+	(define (tan-n i)
+		(if (> i 1) 
+		    (* x x)
+		    x))
+	(define (tan-d i) (+ i (- i 1)))
+	(cont-frac-sub tan-n tan-d k))
+
+(display (tan-cf 1.0 100))
+(newline)
+
+(display (tan-cf 0.5 100))
+(newline)

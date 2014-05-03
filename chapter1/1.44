@@ -1,0 +1,37 @@
+(define (identity x)
+	x)
+
+(define (square x)
+	(* x x))
+
+(define (repeated f n)
+	(define (try g i)
+		(if (= 1 i)
+		    g
+	    	    (try (lambda (x) (f (g x))) (- i 1))))
+	(try f n))
+
+(define dx 0.00001)
+
+(define (smooth f)
+	(lambda (x) (/ (+ (f (- x dx)) (f x) (f (+ x dx))) 3)))
+
+(define (n-fold-smooth f n)
+	((repeated smooth n) f))
+
+
+(define g square)
+(define input 5)
+
+(define result ((smooth g) input))
+(display result)
+(newline)
+(define expected (/ (+ (g (+ input dx)) (g input) (g (- input dx))) 3))
+(display expected)
+(newline)
+
+(display ((smooth (smooth (smooth (smooth g)))) input))
+(newline)
+
+(display ((n-fold-smooth g 4) input))
+(newline) 

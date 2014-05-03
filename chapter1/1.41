@@ -1,0 +1,15 @@
+(define (inc x)
+	(+ x 1))
+
+(define (double f)
+	(lambda (x) (f (f x))))
+
+(display ((double inc) 5))
+(newline)
+(display (((double (double double)) inc) 5))
+(newline)
+
+;    2    ^       4     =  16x inc
+;((double ((double (f (f x)))) inc) 5)
+;((double (f (f (f (f x)))) inc) 5)
+;((f-sixteen-times inc) 5)

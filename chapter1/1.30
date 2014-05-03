@@ -1,0 +1,47 @@
+(define (sum term a next b)
+	(define (iter a result)
+		(if (> a b)
+		    result
+		    (iter (next a) (+ result (term a)))))
+	(iter a 0))
+
+(define (identity a)
+	a)
+
+(define (cube a)
+	(* a a a))
+
+(define (inc a)
+	(+ a 1))
+
+(define (sum-cubes a b)
+	(sum cube a inc b))
+
+(display (sum-cubes 1 10))
+(newline)
+
+(define (integral f a b dx)
+	(define (add-dx x) (+ x dx))
+	(* (sum f (+ a (/ dx 2.0)) add-dx b) dx))
+
+(define (simpson-integral f a b n)
+	(define (find-h a b n)
+		(exact->inexact (/ (- b a) n)))
+		;(/ (- b a) n))
+	
+	(define (calc-simpson f a b n h)
+		(define (y k)
+			(f (+ a (* k h))))
+		(define (func i)
+			(cond ((or (= i 0) (= i n)) (y i))
+			      ((odd? i) (* 4 (y i)))
+			      (else (* 2 (y i)))))
+		(* (sum func 0 inc n) (/ h 3))) 
+	
+	(calc-simpson f a b n (find-h a b n)))
+
+(display (integral cube 0 1 0.01))
+(newline)
+
+(display (simpson-integral cube 0 1 500))
+(newline)
